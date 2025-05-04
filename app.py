@@ -10,8 +10,11 @@ CORS(app)
 
 # Подключение к Google Sheets
 def get_sheet():
+    credentials_json = os.getenv("GOOGLE_CREDENTIALS_JSON")
+    credentials_dict = json.loads(credentials_json)
+
     scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
-    creds = ServiceAccountCredentials.from_json_keyfile_name("GOOGLE_CREDENTIALS_JSON", scope)
+    creds = ServiceAccountCredentials.from_json_keyfile_dict(credentials_dict, scope)
     client = gspread.authorize(creds)
     return client.open("iphones").sheet1
 
