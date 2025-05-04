@@ -30,7 +30,25 @@
       font-size: 2.5rem;
       margin-bottom: 0.5rem;
     }
+@media (max-width: 600px) {
+  #chat-frame {
+    left: 10px;
+    right: 10px;
+    bottom: 80px;
+    width: auto;
+    height: 85vh;
+    border-radius: 0;
+    box-shadow: none;
+  }
 
+  #chat-toggle {
+    width: 60px;
+    height: 60px;
+    font-size: 30px;
+    bottom: 15px;
+    right: 15px;
+  }
+}
     nav {
       display: flex;
       justify-content: center;
@@ -157,17 +175,22 @@
 </div>
 
 <!-- iFrame с ботом -->
-<iframe id="chat-frame" src="bot.html" width="1000" height="1000" frameborder="0" style="
+<iframe id="chat-frame" src="bot.html" frameborder="0" style="
   position: fixed;
   bottom: 90px;
   right: 20px;
-  border-radius: 0px;
-  box-shadow: 0 0 0px rgba(0,0,0,0.2);
+  width: 400px;
+  height: 600px;
+  max-width: 90vw;
+  max-height: 90vh;
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
   border: none;
   background-color: transparent;
   z-index: 9999;
-  display: none; /* Скрыт по умолчанию */
+  display: none;
 "></iframe>
+
 
 <!-- Скрипт для показа/скрытия -->
 <script>
