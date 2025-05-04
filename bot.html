@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Поиск товаров</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: transparent;
+            margin: 0;
+        }
+        .chat-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 400px;
+            margin: 0;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            border: 1px solid #000;
+            text-align: center;
+        }
+        .chat-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        select, button {
+            padding: 6px 10px;
+            margin: 5px auto;
+            border-radius: 5px;
+            text-align: center;
+            display: block;
+            width: 80%;
+            font-size: 14px;
+        }
+        button {
+            background-color: black;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .result {
+            margin-top: 15px;
+            font-size: 14px;
+        }
+        .card {
+            border: 1px solid #ccc;
+            border-left: 5px solid #000;
+            padding: 10px;
+            background: #fff;
+            margin-top: 10px;
+            border-radius: 5px;
+            box-shadow: 1px 1px 4px rgba(0,0,0,0.05);
+            text-align: left;
+        }
+        .card.error {
+            border-left-color: red;
+            background: #ffeaea;
+        }
+        .loading {
+            font-style: italic;
+            color: black;
+            margin-top: 10px;
+            background: #e0e0e0;
+            padding: 8px 12px;
+            border-radius: 5px;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+    <style>
+        body {
+            background: transparent;
+        }
+    </style>
+    <div class="chat-container">
+        <div class="chat-title">Проверить наличие iPhone</div>
+        <form id="filter-form">
+            <select id="model" name="model" required>
+                <option value="">Модель</option>
+                <optgroup label="iPhone 6">
+                    <option>iPhone 6</option>
+                    <option>iPhone 6 Plus</option>
+                    <option>iPhone 6S</option>
+                    <option>iPhone 6S Plus</option>
+                </optgroup>
+                <optgroup label="iPhone 7">
+                    <option>iPhone 7</option>
+                    <option>iPhone 7 Plus</option>
+                </optgroup>
+                <optgroup label="iPhone 8">
+                    <option>iPhone 8</option>
+                    <option>iPhone 8 Plus</option>
+                </optgroup>
+                <optgroup label="iPhone SE">
+                    <option>iPhone SE (1st gen)</option>
+                    <option>iPhone SE (2nd gen)</option>
+                    <option>iPhone SE (3rd gen)</option>
+                </optgroup>
+                <optgroup label="iPhone X">
+                    <option>iPhone X</option>
+                    <option>iPhone XS</option>
+                    <option>iPhone XS Max</option>
+                    <option>iPhone XR</option>
+                </optgroup>
+                <optgroup label="iPhone 11">
+                    <option>iPhone 11</option>
+                    <option>iPhone 11 Pro</option>
+                    <option>iPhone 11 Pro Max</option>
+                </optgroup>
+                <optgroup label="iPhone 12">
+                    <option>iPhone 12</option>
+                    <option>iPhone 12 Mini</option>
+                    <option>iPhone 12 Pro</option>
+                    <option>iPhone 12 Pro Max</option>
+                </optgroup>
+                <optgroup label="iPhone 13">
+                    <option>iPhone 13</option>
+                    <option>iPhone 13 Mini</option>
+                    <option>iPhone 13 Pro</option>
+                    <option>iPhone 13 Pro Max</option>
+                </optgroup>
+                <optgroup label="iPhone 14">
+                    <option>iPhone 14</option>
+                    <option>iPhone 14 Plus</option>
+                    <option>iPhone 14 Pro</option>
+                    <option>iPhone 14 Pro Max</option>
+                </optgroup>
+                <optgroup label="iPhone 15">
+                    <option>iPhone 15</option>
+                    <option>iPhone 15 Plus</option>
+                    <option>iPhone 15 Pro</option>
+                    <option>iPhone 15 Pro Max</option>
+                </optgroup>
+                <optgroup label="iPhone 16">
+                    <option>iPhone 16</option>
+                    <option>iPhone 16 Plus</option>
+                    <option>iPhone 16 Pro</option>
+                    <option>iPhone 16 Pro Max</option>
+                </optgroup>
+            </select>
+            <select id="memory" name="memory">
+                <option value="">Память</option>
+            </select>
+            <select id="battery" name="battery">
+                <option value="">Батарея</option>
+                <option>60%</option>
+                <option>70%</option>
+                <option>75%</option>
+                <option>80%</option>
+                <option>85%</option>
+                <option>90%</option>
+                <option>95%</option>
+            </select>
+            <button type="submit">Показать</button>
+            <button type="button" onclick="document.getElementById('filter-form').reset(); document.getElementById('memory').innerHTML = '<option value=\'\'>Память</option>'; document.getElementById('result').innerHTML = '';">Сбросить</button>
+        </form>
+        <div id="result" class="result"></div>
+    </div>
+
+    <script>
+        const modelToMemory = {
+            "iPhone 6": ["16", "32", "64", "128"],
+            "iPhone 6 Plus": ["16", "32", "64", "128"],
+            "iPhone 6S": ["16", "32", "64", "128"],
+            "iPhone 6S Plus": ["16", "32", "64", "128"],
+            "iPhone 7": ["32", "128", "256"],
+            "iPhone 7 Plus": ["32", "128", "256"],
+            "iPhone 8": ["64", "128", "256"],
+            "iPhone 8 Plus": ["64", "128", "256"],
+            "iPhone SE (1st gen)": ["16", "32", "64", "128"],
+            "iPhone SE (2nd gen)": ["64", "128", "256"],
+            "iPhone SE (3rd gen)": ["64", "128", "256"],
+            "iPhone X": ["64", "256"],
+            "iPhone XS": ["64", "256", "512"],
+            "iPhone XS Max": ["64", "256", "512"],
+            "iPhone XR": ["64", "128", "256"],
+            "iPhone 11": ["64", "128", "256"],
+            "iPhone 11 Pro": ["64", "256", "512"],
+            "iPhone 11 Pro Max": ["64", "256", "512"],
+            "iPhone 12": ["64", "128", "256", "512"],
+            "iPhone 12 Mini": ["64", "128", "256"],
+            "iPhone 12 Pro": ["128", "256", "512"],
+            "iPhone 12 Pro Max": ["128", "256", "512"],
+            "iPhone 13": ["128", "256", "512"],
+            "iPhone 13 Mini": ["128", "256", "512"],
+            "iPhone 13 Pro": ["128", "256", "512", "1 ТБ"],
+            "iPhone 13 Pro Max": ["128", "256", "512", "1 ТБ"],
+            "iPhone 14": ["128", "256", "512"],
+            "iPhone 14 Plus": ["128", "256", "512"],
+            "iPhone 14 Pro": ["128", "256", "512", "1 ТБ"],
+            "iPhone 14 Pro Max": ["128", "256", "512", "1 ТБ"],
+            "iPhone 15": ["128", "256", "512"],
+            "iPhone 15 Plus": ["128", "256", "512"],
+            "iPhone 15 Pro": ["128", "256", "512", "1 ТБ"],
+            "iPhone 15 Pro Max": ["128", "256", "512", "1 ТБ"],
+            "iPhone 16": ["128", "256", "512"],
+            "iPhone 16 Plus": ["128", "256", "512"],
+            "iPhone 16 Pro": ["128", "256", "512", "1 ТБ"],
+            "iPhone 16 Pro Max": ["128", "256", "512", "1 ТБ"]
+        };
+
+        document.getElementById("model").addEventListener("change", function() {
+            const memorySelect = document.getElementById("memory");
+            const model = this.value;
+            memorySelect.innerHTML = '<option value="">Память</option>';
+            if (modelToMemory[model]) {
+                modelToMemory[model].forEach(mem => {
+                    const option = document.createElement("option");
+                    option.value = mem;
+                    option.textContent = mem + " ГБ";
+                    memorySelect.appendChild(option);
+                });
+            }
+        });
+
+        document.getElementById("filter-form").addEventListener("submit", async function(e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+            const params = Object.fromEntries(formData.entries());
+
+            const resultDiv = document.getElementById("result");
+            resultDiv.innerHTML = "<div class='loading'>Загрузка</div>";
+
+            const response = await fetch('/bot', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(params)
+            });
+
+            const data = await response.json();
+            if (Array.isArray(data.reply)) {
+                resultDiv.innerHTML = data.reply.map(item => {
+                    const [model, memory, battery, price] = item
+                        .replace(/Модель:|Память:|Батарея:|Цена:/g, '')
+                        .split('.')
+                        .map(s => s.trim());
+
+                    return `
+                        <div class="card">
+                            <div><strong>Модель:</strong> ${model}</div>
+                            <div><strong>Память:</strong> ${memory}</div>
+                            <div><strong>Батарея:</strong> ${battery}</div>
+                            <div><strong>Цена:</strong> ${price}</div>
+                        </div>
+                    `;
+                }).join("");
+            } else {
+                resultDiv.innerHTML = `<div class="card error">${data.reply}</div>`;
+            }
+        });
+    </script>
+</body>
+</html>

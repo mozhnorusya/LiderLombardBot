@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Ломбард "Золотой"</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: "Segoe UI", sans-serif;
+      line-height: 1.6;
+      background: #f9f9f9;
+      color: #333;
+    }
+
+    header {
+      background: linear-gradient(to right, #b8860b, #daa520);
+      color: white;
+      padding: 2rem;
+      text-align: center;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    }
+
+    header h1 {
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    nav {
+      display: flex;
+      justify-content: center;
+      background-color: #fff8dc;
+      padding: 0.5rem 0;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    nav a {
+      margin: 0 1rem;
+      text-decoration: none;
+      color: #8b4513;
+      font-weight: bold;
+      transition: color 0.3s;
+    }
+
+    nav a:hover {
+      color: #b8860b;
+    }
+
+    section {
+      padding: 3rem 2rem;
+      max-width: 900px;
+      margin: auto;
+    }
+
+    section h2 {
+      margin-bottom: 1rem;
+      color: #b8860b;
+    }
+
+    .card {
+      background: white;
+      padding: 1.5rem;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      margin-bottom: 2rem;
+    }
+
+    footer {
+      background-color: #b8860b;
+      color: white;
+      text-align: center;
+      padding: 1.5rem;
+      margin-top: 3rem;
+    }
+
+    @media (max-width: 600px) {
+      header h1 {
+        font-size: 2rem;
+      }
+
+      nav {
+        flex-direction: column;
+      }
+
+      nav a {
+        margin: 0.5rem 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Лидер Ломбард</h1>
+    <p>Надёжно. Быстро. Выгодно.</p>
+  </header>
+
+  <nav>
+    <a href="#about">О нас</a>
+    <a href="#services">Услуги</a>
+    <a href="#contacts">Контакты</a>
+  </nav>
+
+  <section id="about">
+    <div class="card">
+      <h2>О нас</h2>
+      <p>Мы работаем более 10 лет и предлагаем честные и прозрачные условия. Принимаем золото, электронику, смартфоны и многое другое. Оценка за 5 минут!</p>
+    </div>
+  </section>
+
+  <section id="services">
+    <div class="card">
+      <h2>Наши услуги</h2>
+      <ul>
+        <li>Оценка золота и техники</li>
+        <li>Выкуп техники</li>
+        <li>Продажа товаров</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="contacts">
+    <div class="card">
+      <h2>Контакты</h2>
+      <p>📍 г. Москва, ул. Примерная, д. 1<br/>
+         📞 +7 (495) 123-45-67<br/>
+         🕒 Пн–Сб: 10:00–19:00</p>
+    </div>
+  </section>
+
+  <footer>
+    <p>&copy; Лидер Ломбард. Все права защищены.</p>
+  </footer>
+
+  <div id="chat-toggle" style="
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 80px;
+  height: 80px;
+  background-color: #000;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 40px;
+  z-index: 10000;
+  box-shadow: 0 0 10px rgba(0,0,0,0.3);
+">
+    ✔
+</div>
+
+<!-- iFrame с ботом -->
+<iframe id="chat-frame" src="bot.html" width="1000" height="1000" frameborder="0" style="
+  position: fixed;
+  bottom: 90px;
+  right: 20px;
+  border-radius: 0px;
+  box-shadow: 0 0 0px rgba(0,0,0,0.2);
+  border: none;
+  background-color: transparent;
+  z-index: 9999;
+  display: none; /* Скрыт по умолчанию */
+"></iframe>
+
+<!-- Скрипт для показа/скрытия -->
+<script>
+    const toggleBtn = document.getElementById("chat-toggle");
+    const chatFrame = document.getElementById("chat-frame");
+
+    toggleBtn.addEventListener("click", () => {
+        chatFrame.style.display = (chatFrame.style.display === "none" || chatFrame.style.display === "") ? "block" : "none";
+    });
+</script>
+
+</body>
+</html>
